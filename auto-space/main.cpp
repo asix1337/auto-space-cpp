@@ -33,7 +33,7 @@
 
 using namespace std::literals::chrono_literals;
 
-constexpr auto interval { 25ms };
+constexpr auto interval { 2ms };
 
 auto WINAPI ThreadProc(LPVOID)->DWORD;
 auto CALLBACK LowLevelKeyboardProc(int, WPARAM, LPARAM)->LRESULT;
@@ -115,7 +115,7 @@ auto WINAPI ThreadProc(LPVOID lpParameter) -> DWORD
 		input.ki.dwFlags = KEYEVENTF_KEYUP;
 		SendInput(1U, &input, sizeof(INPUT));
 	}
-	return 0UL;
+	return 0;
 }
 
 auto CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) -> LRESULT
@@ -134,7 +134,7 @@ auto CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) -> L
 			WaitForSingleObject(hThread, INFINITE);
 			std::wcout << L"Stopped." << std::endl;
 			if (Beep(1000, 100))
-				std::this_thread::sleep_for(100ms);
+				std::this_thread::sleep_for(150ms);
 			hThread = nullptr;
 		}
 	}
