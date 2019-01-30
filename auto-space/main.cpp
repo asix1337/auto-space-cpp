@@ -134,7 +134,7 @@ auto CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) -> L
 			WaitForSingleObject(hThread, INFINITE);
 			std::wcout << L"Stopped." << std::endl;
 			if (Beep(1000, 100))
-				std::this_thread::sleep_for(150ms);
+				std::this_thread::sleep_for(100ms);
 			hThread = nullptr;
 		}
 	}
