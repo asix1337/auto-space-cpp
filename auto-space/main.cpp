@@ -115,7 +115,7 @@ auto WINAPI ThreadProc(LPVOID lpParameter) -> DWORD
 		input.ki.dwFlags = KEYEVENTF_KEYUP;
 		SendInput(1U, &input, sizeof(INPUT));
 	}
-	return 0;
+	return 0UL;
 }
 
 auto CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) -> LRESULT
