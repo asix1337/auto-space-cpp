@@ -106,14 +106,18 @@ auto WINAPI ThreadProc(LPVOID lpParameter) -> DWORD
 	ZeroMemory(&input, sizeof(input));
 	input.type = INPUT_KEYBOARD;
 	input.ki.wVk = VK_SPACE;
+	input.ki.wScan = MapVirtualKeyW(VK_SPACE, 0);
 
 	while (bIsEnabled)
 	{
 		input.ki.dwFlags = 0UL;
 		SendInput(1U, &input, sizeof(INPUT));
+		//keybd_event(VK_SPACE, MapVirtualKeyW(VK_SPACE, 0), 0, 0);
 		std::this_thread::sleep_for(interval);
 		input.ki.dwFlags = KEYEVENTF_KEYUP;
 		SendInput(1U, &input, sizeof(INPUT));
+		//keybd_event(VK_SPACE, MapVirtualKeyW(VK_SPACE, 0), KEYEVENTF_KEYUP, 0);
+
 	}
 	return 0;
 }
