@@ -33,7 +33,7 @@
 
 using namespace std::literals::chrono_literals;
 
-constexpr auto interval { 2ms };
+constexpr auto interval { 25ms };
 
 auto WINAPI ThreadProc(LPVOID)->DWORD;
 auto CALLBACK LowLevelKeyboardProc(int, WPARAM, LPARAM)->LRESULT;
@@ -63,9 +63,7 @@ auto wmain(int, wchar_t*[]) -> int
 			cfi.FontWeight = 400U;
 			wcscpy_s(cfi.FaceName, L"Consolas");
 			SetCurrentConsoleFontEx(hConsoleOutput, FALSE, &cfi);
-		}
-
-		SetConsoleScreenBufferSize(hConsoleOutput, { 100, 30 });
+		}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           		SetConsoleScreenBufferSize(hConsoleOutput, { 100, 30 });
 		SMALL_RECT cw { 0, 0, 100 - 1, 30 - 1 };
 		SetConsoleWindowInfo(hConsoleOutput, TRUE, &cw);
 
@@ -117,7 +115,6 @@ auto WINAPI ThreadProc(LPVOID lpParameter) -> DWORD
 		input.ki.dwFlags = KEYEVENTF_KEYUP;
 		SendInput(1U, &input, sizeof(INPUT));
 		//keybd_event(VK_SPACE, MapVirtualKeyW(VK_SPACE, 0), KEYEVENTF_KEYUP, 0);
-
 	}
 	return 0;
 }
@@ -142,6 +139,5 @@ auto CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) -> L
 			hThread = nullptr;
 		}
 	}
-
 	return CallNextHookEx(hHook, nCode, wParam, lParam);
 }
