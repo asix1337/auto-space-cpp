@@ -137,8 +137,7 @@ auto CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) -> L
 		{
 			bIsEnabled = FALSE;
 			WaitForSingleObject(hThread, INFINITE);
-			if (Beep(1000, 100))
-				std::this_thread::sleep_for(150ms);
+			Beep(1000, 100);
 			hThread = nullptr;
 		}
 	}
