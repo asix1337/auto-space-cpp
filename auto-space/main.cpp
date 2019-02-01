@@ -25,6 +25,7 @@
 #include <chrono>
 #include <thread>
 #include <iostream>
+#include <random>
 
 #include <Windows.h>
 #include <VersionHelpers.h>
@@ -32,8 +33,6 @@
 #include "resource.h"
 
 using namespace std::literals::chrono_literals;
-
-constexpr auto interval { 25ms };
 
 auto WINAPI ThreadProc(LPVOID)->DWORD;
 auto CALLBACK LowLevelKeyboardProc(int, WPARAM, LPARAM)->LRESULT;
@@ -106,6 +105,11 @@ auto WINAPI ThreadProc(LPVOID lpParameter) -> DWORD
 	input.ki.wVk = VK_SPACE;
 	input.ki.wScan = MapVirtualKeyW(VK_SPACE, MAPVK_VK_TO_VSC);
 
+	std::mt19937 mt(std::random_device {}());
+	std::uniform_int_distribution<int> dist { 10, 25 };
+	auto const interval { std::chrono::milliseconds{dist(mt)} };
+	std::wcout << L"Started with an interval of " << interval.count() << " milliseconds." << std::endl;
+
 	while (bIsEnabled)
 	{
 		input.ki.dwFlags = 0UL;
@@ -116,6 +120,7 @@ auto WINAPI ThreadProc(LPVOID lpParameter) -> DWORD
 		SendInput(1U, &input, sizeof(INPUT));
 		//keybd_event(VK_SPACE, MapVirtualKeyW(VK_SPACE, MAPVK_VK_TO_VSC), KEYEVENTF_KEYUP, 0);
 	}
+	std::wcout << L"Stopped." << std::endl;
 	return 0;
 }
 
@@ -127,13 +132,11 @@ auto CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) -> L
 		{
 			bIsEnabled = TRUE;
 			hThread = CreateThread(nullptr, 0U, ThreadProc, nullptr, 0UL, nullptr);
-			std::wcout << L"Started with an interval of " << interval.count() << " milliseconds." << std::endl;
 		}
 		else
 		{
 			bIsEnabled = FALSE;
 			WaitForSingleObject(hThread, INFINITE);
-			std::wcout << L"Stopped." << std::endl;
 			if (Beep(1000, 100))
 				std::this_thread::sleep_for(150ms);
 			hThread = nullptr;
