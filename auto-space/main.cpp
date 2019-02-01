@@ -106,7 +106,7 @@ auto WINAPI ThreadProc(LPVOID lpParameter) -> DWORD
 	input.ki.wScan = MapVirtualKeyW(VK_SPACE, MAPVK_VK_TO_VSC);
 
 	std::mt19937 mt(std::random_device {}());
-	std::uniform_int_distribution<int> dist { 10, 25 };
+	std::uniform_int_distribution<int> dist { 25, 35 };
 	auto const interval { std::chrono::milliseconds{dist(mt)} };
 	std::wcout << L"Started with an interval of " << interval.count() << " milliseconds." << std::endl;
 
